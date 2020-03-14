@@ -13,11 +13,7 @@ func frequencySort(s string) string {
 	// 把字符串读到map里面
 	m := map[byte]int{}
 	for i := 0; i < len(s); i++ {
-		if m[s[i]] > 0 {
-			m[s[i]] += 1
-		} else {
-			m[s[i]] = 1
-		}
+		m[s[i]]++
 	}
 
 	var countArr []int
