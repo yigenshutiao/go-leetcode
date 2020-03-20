@@ -33,8 +33,50 @@ func minimumTotal1(triangle [][]int) int {
 	return res
 }
 
+func minimumTotal2(triangle [][]int) int {
+	n := len(triangle)
+	path := make([][]int, n)
+	for i := 0; i < n; i++ {
+		path[i] = make([]int, len(triangle[i]))
+	}
+
+	path[0][0] = triangle[0][0]
+
+	for i := 1; i < n; i++ {
+		for j := 0; j <= i; j++ {
+			path[i][j] = 99999999
+			// 这里处理边界处理的比较恶心...
+			if j == 0 {
+				path[i][j] = path[i-1][j] + triangle[i][j]
+			} else if i == j {
+				path[i][j] = path[i-1][j-1] + triangle[i][j]
+			} else {
+				path[i][j] = min(path[i-1][j], path[i-1][j-1]) + triangle[i][j]
+			}
+		}
+	}
+
+	fmt.Println(path)
+
+	res := 9999999
+	for i := 0; i < n; i++ {
+		res = min(res, path[n-1][i])
+	}
+
+	return res
+}
+
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
 func main() {
 	triangle := [][]int{{2}, {3, 4}, {6, 5, 7}, {4, 1, 8, 3}}
-	res := minimumTotal1(triangle)
-	fmt.Println(res)
+	//res1 := minimumTotal1(triangle)
+	res2 := minimumTotal2(triangle)
+
+	fmt.Println(res2)
 }
