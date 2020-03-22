@@ -56,8 +56,6 @@ func minimumTotal2(triangle [][]int) int {
 		}
 	}
 
-	fmt.Println(path)
-
 	res := 9999999
 	for i := 0; i < n; i++ {
 		res = min(res, path[n-1][i])
@@ -73,10 +71,24 @@ func min(a, b int) int {
 	return b
 }
 
+func minimumTotal3(triangle [][]int) int {
+	if len(triangle) == 0 {
+		return 0
+	}
+	for i := len(triangle) - 2; i >= 0; i-- {
+		for j := 0; j < len(triangle[i]); j++ {
+			triangle[i][j] = min(triangle[i+1][j], triangle[i+1][j+1]) + triangle[i][j]
+		}
+	}
+
+	return triangle[0][0]
+}
+
 func main() {
 	triangle := [][]int{{2}, {3, 4}, {6, 5, 7}, {4, 1, 8, 3}}
-	//res1 := minimumTotal1(triangle)
+	res1 := minimumTotal1(triangle)
 	res2 := minimumTotal2(triangle)
+	res3 := minimumTotal3(triangle)
 
-	fmt.Println(res2)
+	fmt.Println(res1, res2, res3)
 }
